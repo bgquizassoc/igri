@@ -244,7 +244,16 @@
         popup.style.display = 'none';
     });
 </script>
-
+  <script>
+window.addEventListener("load", () => {
+  const a = document.getElementById("bgm");
+  a.volume = 0.4;
+  a.play().catch(() => {
+    document.body.addEventListener("click", () => a.play(), { once: true });
+  });
+});
+</script>
+<audio id="bgm" src="future.mp3" autoplay loop></audio>
 </body>
 </html>
 
