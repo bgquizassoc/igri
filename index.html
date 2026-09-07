@@ -83,9 +83,8 @@
         transform: scale(1.03);
     }
 
-    /* Popup стил — правилно скрит */
     #logo-popup {
-        display: none; /* ТОВА ОСТАВА! */
+        display: none;
         position: fixed;
         top: 0; left: 0;
         width: 100%; height: 100%;
@@ -99,7 +98,56 @@
         max-width: 90%;
         max-height: 90%;
     }
+
+    /* Анкета */
+    #anketa-title {
+        margin-top: 25px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .vote-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .vote-square {
+        width: 32px;
+        height: 32px;
+        border-radius: 5px;
+        border: 2px solid #009e3d;
+        cursor: pointer;
+        background: #001a33;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .vote-square.voted {
+        background: #009e3d;
+    }
 </style>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyB6ds9mU-xvF1LSvhaeCNtMbROu0k",
+    authDomain: "cifromania-ac182.firebaseapp.com",
+    projectId: "cifromania-ac182",
+    storageBucket: "cifromania-ac182.appspot.com",
+    messagingSenderId: "165208255580",
+    appId: "1:165208255580:web:b36744f0eb527b6571129"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
 
 </head>
 <body>
@@ -109,125 +157,168 @@
     <img src="emblema.png" alt="Лого" class="logo" />
 </header>
 
+<div id="anketa-title">
+    Гласувайте анонимно кой куиз искате да играем на 14-ти септември (понеделник)
+</div>
+
 <div class="container">
-  <a class="menu-btn" href="/izbor/index.html">
+
+  <!-- izbor -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/izbor/index.html">
         ☑️ Куиз Избор ☑️ <br>(06 септ 22:00 ч, епизод 1)
     </a>
+    <div class="vote-square" data-game="izbor">0</div>
+  </div>
 
+  <!-- quizmix123 (няма в списъка за гласуване, оставям без квадратче) -->
   <a class="menu-btn" href="/quizmix123/index.html">
          🧩  Куиз Микс 123 🧩 <br>(05 септ 22:00 ч., епизод 1)
-    </a>
-   
-      <a class="menu-btn" href="/config/game.html">
+  </a>
+
+  <!-- configurator -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/config/game.html">
         🛠️ Куиз Конфигуратор 🛠️ <br>(05 септ. 22:00 ч, епизод 64)
     </a>
-     <a class="menu-btn" href="/lightning/lightning_player.html">
+    <div class="vote-square" data-game="configurator">0</div>
+  </div>
+
+  <!-- lightning -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/lightning/lightning_player.html">
         ⚡ Светкавичен куиз ⚡<br>(04 септ 22:00 ч., минал епизод)
     </a>
-   <a class="menu-btn" href="/sravnenie30/index.html">
+    <div class="vote-square" data-game="lightning">0</div>
+  </div>
+
+  <!-- sravnenie30 -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/sravnenie30/index.html">
         ⚖️ Куиз Сравнение ⚖️ <br>(04 септ 22:00 ч., епизод 1 (повторение))
-    </a> 
-  
+    </a>
+    <div class="vote-square" data-game="sravnenie30">0</div>
+  </div>
 
-  <a class="menu-btn" href="/bukvomanialive/index.html">
-    🅰️ Буквомания 🅰️<br>(03 септември 22:00 ч - минал епизод на Светкавичен)
-</a>
-  
+  <!-- bukvomania -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/bukvomanialive/index.html">
+      🅰️ Буквомания 🅰️<br>(03 септември 22:00 ч - минал епизод на Светкавичен)
+    </a>
+    <div class="vote-square" data-game="bukvomania">0</div>
+  </div>
 
-  
-  <a class="menu-btn" href="/percent/index.html">
+  <!-- percent -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/percent/index.html">
         📈 Куиз Процент 📈 <br>(01 септември 22:00 ч., епизод 1, повторение)
     </a>
-   
-  
- 
+    <div class="vote-square" data-game="percent">0</div>
+  </div>
 
+  <!-- chift -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/chift/index.html">
+        🔗 Куиз Чифтосване 🔗 <br>(31 юли 22:00 ч., повторение)
+    </a>
+    <div class="vote-square" data-game="chift">0</div>
+  </div>
 
- 
-  
- 
+  <!-- grupirane -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/grupirane/index.html">
+        📚 Куиз Групиране 📚 <br>(2 август 22:00 ч. премиера)
+    </a>
+    <div class="vote-square" data-game="grupirane">0</div>
+  </div>
 
-   
+  <!-- parashut_bg_live -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/parashutbg/index.html">
+        🪂 Гео-игра Парашут 🪂 <br>(9 август 22:00)
+    </a>
+    <div class="vote-square" data-game="parashut_bg_live">0</div>
+  </div>
 
-    <a class="menu-btn" href="/spoko/index.html">
-        🦉 Спокойна игра 🦉 <br>(епизод 94) 
-    </a>
- <a class="menu-btn" href="/cockteil/cockteil.html">
-        🍹 Куиз коктейл 🍹<br>(по всяко време)
-    </a>
-    <a class="menu-btn" href="/survivor/survivor.html">
-        🗡️ Куиз Сървайвър 🗡️<br>(по всяко време)
-    </a>
-    <a class="menu-btn" href="/cifromania/cifromania.html">
-        🔢 Коктейл Цифромания 🔢<br>(по всяко време)
-    </a>
-  <a class="menu-btn" href="/bukvomanialive/index.html">
-    🅰️ Буквомания 🅰️<br>(27 август - 22:00 - преработен минал епизод на Светкавичен)
-</a>
-     
-  <a class="menu-btn" href="/fotomania/index.html">
+  <!-- fotomania -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/fotomania/index.html">
         📷 Фотомания 📷 <br>(28 юли - 22:00 - повторение)
     </a>
-  
+    <div class="vote-square" data-game="fotomania">0</div>
+  </div>
+
+  <!-- cifromania_live -->
+  <div class="vote-row">
     <a class="menu-btn" href="/cifromania_live/index.html">
         🔢 Цифромания Диапазон🔢<br>(30 юли 21:30 ч, епизод 1)
     </a>
- <a class="menu-btn" href="/cifromania20/index.html">
+    <div class="vote-square" data-game="cifromania_live">0</div>
+  </div>
+
+  <!-- cifromania20 -->
+  <div class="vote-row">
+    <a class="menu-btn" href="/cifromania20/index.html">
         🔢 Цифромания Топ 20 🔢<br>(16 август 22:00 ч, епизод 2)
     </a>
+    <div class="vote-square" data-game="cifromania20">0</div>
+  </div>
 
-  <a class="menu-btn" href="/chift/index.html">
-        🔗 Куиз Чифтосване 🔗 <br>(31 юли 22:00 ч., повторение)
-    </a>
-     
- <a class="menu-btn" href="/grupirane/index.html">
-        📚 Куиз Групиране 📚 <br>(2 август 22:00 ч. премиера)
-    </a>
-   <a class="menu-btn" href="/parashutbg/index.html">
-        🪂 Гео-игра Парашут 🪂 <br>(9 август 22:00)
-    </a>
+  <!-- останалите игри – без гласуване, остават както са -->
+  <a class="menu-btn" href="/spoko/index.html">
+        🦉 Спокойна игра 🦉 <br>(епизод 94) 
+  </a>
+  <a class="menu-btn" href="/cockteil/cockteil.html">
+        🍹 Куиз коктейл 🍹<br>(по всяко време)
+  </a>
+  <a class="menu-btn" href="/survivor/survivor.html">
+        🗡️ Куиз Сървайвър 🗡️<br>(по всяко време)
+  </a>
+  <a class="menu-btn" href="/cifromania/cifromania.html">
+        🔢 Коктейл Цифромания 🔢<br>(по всяко време)
+  </a>
+  <a class="menu-btn" href="/bukvomanialive/index.html">
+    🅰️ Буквомания 🅰️<br>(27 август - 22:00 - преработен минал епизод на Светкавичен)
+  </a>
+  <a class="menu-btn" href="/fotomania/index.html">
+        📷 Фотомания 📷 <br>(28 юли - 22:00 - повторение)
+  </a>
+  <a class="menu-btn" href="/cifromania_live/index.html">
+        🔢 Цифромания Диапазон🔢<br>(30 юли 21:30 ч, епизод 1)
+  </a>
+  <a class="menu-btn" href="/cifromania20/index.html">
+        🔢 Цифромания Топ 20 🔢<br>(16 август 22:00 ч, епизод 2)
+  </a>
   <a class="menu-btn" href="/klasacia/index.html">
         📊 Куиз Класация 📊 <br>(разработва се)
-    </a>
-  
-    <a class="menu-btn" href="/sravnenie/index.html">
+  </a>
+  <a class="menu-btn" href="/sravnenie/index.html">
         ⚓ Куиз Дуел: Бойни кораби ⚓ <br>(разработва се)
-    </a> 
-
-   
-  
-  
- <a class="menu-btn" href="/config/config.html">     
+  </a>
+  <a class="menu-btn" href="/config/config.html">     
         🛠️ Задай куиз 🛠️ 
-    </a>
- 
-  
-
-    <a class="menu-btn" href="/bulgaria/cifromania.html">
+  </a>
+  <a class="menu-btn" href="/bulgaria/cifromania.html">
          🌍 Гео-игра Фотосвят 🌍<br>(разработва се)
-    </a>
-
-
-<a class="menu-btn" href="/quizmix456/index.html">
+  </a>
+  <a class="menu-btn" href="/quizmix456/index.html">
          🧩  Куиз Микс 456 🧩 <br>(разработва се)
-    </a>
+  </a>
   <a class="menu-btn" href="/quizmix7810/index.html">
          🧩  Куиз Микс 7810 🧩 <br>(разработва се)
-    </a>
-<a class="menu-btn" href="/bezkray/index.html">
+  </a>
+  <a class="menu-btn" href="/bezkray/index.html">
          🔀  Безкраен Куиз 🔀 <br>(разработва се)
-    </a>
-  
-    <a class="menu-btn" href="/igri/liganew.html">
+  </a>
+  <a class="menu-btn" href="/igri/liganew.html">
         👽🏆 Лига на Извънземните 👽🏆<br>(класиране)
-    </a>
-
-    <a class="menu-btn" href="https://bgquizassoc.github.io/video/">
+  </a>
+  <a class="menu-btn" href="https://bgquizassoc.github.io/video/">
         🎥 Видеоархив 🎥<br>(гледай записи)
-    </a>
+  </a>
+
 </div>
 
-<!-- Popup контейнер - СКРИТ -->
 <div id="logo-popup">
     <img src="emblema.png" alt="Голямо лого">
 </div>
@@ -244,37 +335,38 @@
         popup.style.display = 'none';
     });
 </script>
-  <script>
-window.addEventListener("load", () => {
-  const a = document.getElementById("bgm");
-  a.volume = 0.4;
-  a.play().catch(() => {
-    document.body.addEventListener("click", () => a.play(), { once: true });
+
+<!-- Музика -->
+<audio id="bgm" src="future.mp3" loop></audio>
+
+<script>
+document.querySelectorAll(".vote-square").forEach(sq => {
+  sq.addEventListener("click", async () => {
+    const a = document.getElementById("bgm");
+    a.volume = 0.4;
+    a.play().catch(() => {
+      document.body.addEventListener("click", () => a.play(), { once: true });
+    });
+
+    const game = sq.dataset.game;
+
+    await db.collection("votes")
+      .doc(game)
+      .set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true });
+
+    sq.classList.add("voted");
+  });
+});
+
+db.collection("votes").onSnapshot(snap => {
+  snap.forEach(doc => {
+    const game = doc.id;
+    const count = doc.data().count;
+    const sq = document.querySelector(`.vote-square[data-game="${game}"]`);
+    if (sq) sq.innerText = count;
   });
 });
 </script>
-<audio id="bgm" src="future.mp3" autoplay loop></audio>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
