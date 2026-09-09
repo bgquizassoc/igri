@@ -83,6 +83,35 @@
         transform: scale(1.03);
     }
 
+    /* ----------- ХОРИЗОНТАЛНА / RESPONSIVE НАВИГАЦИЯ (както на bnqaindex) ----------- */
+    nav.main-nav {
+        background-color: #003366;
+        padding: 15px 10px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        border-bottom: 2px solid #00509e;
+    }
+
+    nav.main-nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 12px 18px;
+        border-radius: 6px;
+        background-color: #003d7a;
+        border: 2px solid #00509e;
+        transition: 0.2s;
+        white-space: nowrap;
+    }
+
+    nav.main-nav a:hover {
+        background-color: #004a9f;
+        transform: scale(1.05);
+    }
+
     #logo-popup {
         display: none;
         position: fixed;
@@ -156,6 +185,19 @@
     <div class="title">БЪЛГАРСКА НАЦИОНАЛНА КУИЗ АСОЦИАЦИЯ</div>
     <img src="emblema.png" alt="Лого" class="logo" />
 </header>
+
+<nav class="main-nav">
+    <a href="/index.html">Начало</a>
+    <a href="/kalendar/index.html">Календар</a>
+    <a href="#">Куиз играчи</a>
+    <a href="#">Отбори</a>
+    <a href="#">Нац. отбор</a>
+    <a href="/clasirane/index.html">Класирания</a>
+    <a href="/video/index.html">Мултимедия</a>
+    <a href="#">Отиди на куиз</a>
+    <a href="/igri/index.html">Игри на Знания</a>
+    <a href="#">Асоциация</a>
+</nav>
 
 <div id="anketa-title">
     Гласувайте анонимно кой куиз искате да играем на 15-ти септември (вторник)
@@ -363,17 +405,22 @@ document.querySelectorAll(".vote-square").forEach(sq => {
       document.body.addEventListener("click", () => a.play(), { once: true });
     });
 
-    // Записваме глас
-    await db.collection("votes")
-      .doc(game)
+    // ⭐ Записваме гласа в документ, вързан за ДНЕШНАТА дата — така
+    // анкетата стартира от нула всеки нов ден, вместо гласовете да се
+    // трупат безкрайно (стария код пишеше директно в votes/{game}
+    // с increment(1), без дата — резултатите никога не се нулираха).
+    await db.collection("votes").doc(today).collection("byGame").doc(game)
       .set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true });
 
     sq.classList.add("voted");
   });
 });
 
-// Показване на гласовете в реално време
-db.collection("votes").onSnapshot(snap => {
+// ⭐ Показваме гласовете в реално време — само за ДНЕШНИЯ ден
+const todayForListener = new Date().toISOString().slice(0, 10);
+db.collection("votes").doc(todayForListener).collection("byGame").onSnapshot(snap => {
+  // нулираме всички квадратчета по подразбиране — игра без глас днес показва 0
+  document.querySelectorAll(".vote-square").forEach(sq => sq.innerText = "0");
   snap.forEach(doc => {
     const game = doc.id;
     const count = doc.data().count;
