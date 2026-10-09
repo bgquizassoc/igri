@@ -2,6 +2,7 @@
 <html lang="bg">
 <head>
 <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Игри на знания – Българска Национална Куиз Асоциация</title>
 
 <!-- Google tag (gtag.js) -->
@@ -14,12 +15,21 @@
 </script>
 
 <style>
+    :root {
+        --c-day: #ffd100;        /* жълт – "Игра на деня" и "Бъдещи игри" */
+        --c-col: #6ec6ff;        /* светлосин – заглавия на колони и бележка * */
+        --c-label: #ffffff;      /* бял – етикети на групите */
+        --c-links: #ff7eb9;      /* розов – "Други връзки" */
+    }
+    * { box-sizing: border-box; }
+
     body {
         margin: 0;
         font-family: Arial, sans-serif;
         background-color: #001a33;
         color: white;
         text-align: center;
+        overflow-x: hidden;
     }
 
     header {
@@ -31,59 +41,25 @@
         background-color: #00264d;
     }
 
-    .logo {
-        height: 100px;
-        cursor: pointer;
-    }
+    .logo { height: 100px; cursor: pointer; }
 
     .title {
         font-size: 65px;
         font-weight: 900;
         text-transform: uppercase;
-
         background: linear-gradient(
             to bottom,
-            #ffffff 0%,
-            #ffffff 40%,
-            #009e3d 40%,
-            #009e3d 66%,
-            #d80000 66%,
-            #d80000 100%
+            #ffffff 0%, #ffffff 40%,
+            #009e3d 40%, #009e3d 66%,
+            #d80000 66%, #d80000 100%
         );
         -webkit-background-clip: text;
         color: transparent;
-
         -webkit-text-stroke: 3px #ffffff;
         text-stroke: 3px #ffffff;
     }
 
-    .container {
-        margin-top: 40px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 25px;
-    }
-
-    .menu-btn {
-        width: 340px;
-        padding: 18px 10px;
-        background-color: #003366;
-        color: white;
-        text-decoration: none;
-        font-size: 20px;
-        font-weight: bold;
-        border-radius: 8px;
-        border: 2px solid #00509e;
-        transition: 0.2s;
-    }
-
-    .menu-btn:hover {
-        background-color: #004080;
-        transform: scale(1.03);
-    }
-
-    /* ----------- ХОРИЗОНТАЛНА / RESPONSIVE НАВИГАЦИЯ (както на bnqaindex) ----------- */
+    /* ----------- НАВИГАЦИЯ ----------- */
     nav.main-nav {
         background-color: #003366;
         padding: 15px 10px;
@@ -93,7 +69,6 @@
         gap: 12px;
         border-bottom: 2px solid #00509e;
     }
-
     nav.main-nav a {
         color: white;
         text-decoration: none;
@@ -106,11 +81,7 @@
         transition: 0.2s;
         white-space: nowrap;
     }
-
-    nav.main-nav a:hover {
-        background-color: #004a9f;
-        transform: scale(1.05);
-    }
+    nav.main-nav a:hover { background-color: #004a9f; transform: scale(1.05); }
 
     #logo-popup {
         display: none;
@@ -122,26 +93,24 @@
         align-items: center;
         z-index: 9999;
     }
+    #logo-popup img { max-width: 90%; max-height: 90%; }
 
-    #logo-popup img {
-        max-width: 90%;
-        max-height: 90%;
-    }
-
-    /* Анкета */
+    /* ----------- АНКЕТА ----------- */
     #anketa-title {
-        margin-top: 25px;
+        margin: 25px auto 0;
+        padding: 0 12px;
+        max-width: 900px;
         font-size: 28px;
         font-weight: bold;
     }
 
     .vote-row {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 34px;
         align-items: center;
-        justify-content: center;
-        gap: 12px;
+        gap: 8px;
+        width: 100%;
     }
-
     .vote-square {
         width: 32px;
         height: 32px;
@@ -155,9 +124,118 @@
         font-size: 16px;
         font-weight: bold;
     }
+    .vote-square.voted { background: #009e3d; }
 
-    .vote-square.voted {
-        background: #009e3d;
+    /* ----------- БУТОНИ ЗА ИГРИ ----------- */
+    .menu-btn {
+        display: block;
+        width: 100%;
+        padding: 14px 10px;
+        background-color: #003366;
+        color: white;
+        text-decoration: none;
+        font-size: clamp(16px, 4.4vw, 20px);
+        font-weight: bold;
+        line-height: 1.35;
+        border-radius: 8px;
+        border: 2px solid #00509e;
+        transition: 0.2s;
+        overflow-wrap: anywhere;
+    }
+    .menu-btn:hover { background-color: #004080; transform: scale(1.03); }
+
+    /* ----------- СТРУКТУРА НА СТРАНИЦАТА ----------- */
+    .page {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 14px 40px;
+    }
+
+    .section-title {
+        font-size: clamp(22px, 5vw, 30px);
+        font-weight: 800;
+        margin: 40px 0 16px;
+        line-height: 1.25;
+    }
+    .section-title small {
+        display: block;
+        font-size: 0.65em;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+    .t-day    { color: var(--c-day); }
+    .t-col    { color: var(--c-col); }
+    .t-future { color: var(--c-day); }
+    .t-links  { color: var(--c-links); }
+
+    .single-col {
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    /* Две колони; на телефон – една, първо лявата, после дясната */
+    .columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+    }
+    .column {
+        width: 100%;
+        max-width: 380px;
+        margin: 0 auto;
+    }
+    .column > .section-title { margin-top: 30px; }
+
+    .group { margin-bottom: 22px; }
+    .group-label {
+        color: var(--c-label);
+        font-size: 17px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        line-height: 1.3;
+    }
+    .group .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footnote {
+        color: var(--c-col);
+        font-size: 16px;
+        font-weight: bold;
+        max-width: 560px;
+        margin: 40px auto 0;
+        line-height: 1.4;
+    }
+    hr.divider {
+        border: 0;
+        border-top: 2px solid #00509e;
+        max-width: 700px;
+        margin: 30px auto;
+    }
+    .link-logos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        min-height: 60px;
+    }
+    .link-logos img { height: 60px; max-width: 100%; }
+
+    @media (max-width: 800px) {
+        .title { font-size: 34px; -webkit-text-stroke: 2px #ffffff; text-align: center; }
+        header { flex-direction: column; gap: 10px; }
+        .logo { height: 70px; }
+        #anketa-title { font-size: 20px; }
+        nav.main-nav a { font-size: 15px; padding: 10px 12px; }
+        .columns { grid-template-columns: 1fr; gap: 0; }
     }
 </style>
 
@@ -203,182 +281,257 @@
     Гласувайте анонимно, в кутийките с числа, кой куиз искате да играем на 15-ти октомври (петък)
 </div>
 
-<div class="container">
-    <!-- bukvomania -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/bukvomanialive/index.html">
-      🅰️ Буквомания 🅰️<br>(08 октомври 22:00 ч - преработен епизод на Светкавичен)
-    </a>
-    <div class="vote-square" data-game="bukvomania">0</div>
+<div class="page">
+
+  <!-- ===== ИГРА НА ДЕНЯ (сменяш бутона тук всеки ден) ===== -->
+  <div class="section-title t-day">Игра на деня</div>
+  <div class="single-col">
+      <div class="vote-row">
+        <a class="menu-btn" href="/bukvomanialive/index.html">
+          🅰️ Буквомания 🅰️<br>(08 октомври 22:00 ч - преработен епизод на Светкавичен)
+        </a>
+        <div class="vote-square" data-game="bukvomania">0</div>
+      </div>
   </div>
 
-   <!-- percent -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/percent/index.html">
-        📈 Куиз Процент 📈 <br>(07 октомври 22:00 ч. <br>(минал епизод)
-    </a>
-    <div class="vote-square" data-game="percent">0</div>
+  <!-- ===== ДВЕ КОЛОНИ ===== -->
+  <div class="columns">
+
+    <!-- ЛЯВА КОЛОНА -->
+    <div class="column">
+      <div class="section-title t-col">Игри с много участници<small>с жива класация</small></div>
+    <div class="group">
+      <div class="group-label">С 2 варианта за отговор</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/sravnenie30/index.html">
+          ⚖️ Куиз Сравнение ⚖️ <br>(04 септ 22:00 ч., епизод 1 (повторение))
+        </a>
+        <div class="vote-square" data-game="sravnenie30">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С 4 варианта за отговор</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/lightning/lightning_player.html">
+          ⚡ Светкавичен куиз ⚡<br>(03 окт 21:00 ч., епизод 1) <br> (22:00 ч. епизод 97)
+        </a>
+        <div class="vote-square" data-game="lightning">0</div>
+      </div>
+      <div class="vote-row">
+        <a class="menu-btn" href="/percent/index.html">
+          📈 Куиз Процент 📈 <br>(07 октомври 22:00 ч., минал епизод)
+        </a>
+        <div class="vote-square" data-game="percent">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С 5 варианта за отговор</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/izbor/index.html">
+          ☑️ Куиз Избор ☑️ <br>(09 септ 22:00 ч, епизод 1)
+        </a>
+        <div class="vote-square" data-game="izbor">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С отворени въпроси и изписване на първа буква</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/bukvomanialive/index.html">
+          🅰️ Буквомания 🅰️<br>(08 октомври 22:00 ч - преработен епизод на Светкавичен)
+        </a>
+        <div class="vote-square" data-game="bukvomania">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С отворени въпроси с картинка или клип</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/fotomania/index.html">
+          📷 Фотомания 📷 <br>(28 юли - 22:00 - повторение)
+        </a>
+        <div class="vote-square" data-game="fotomania">0</div>
+      </div>
+      <a class="menu-btn" href="/multi/index.html">
+          🎬 Куиз Мултимедия 🎬 <br>(02-ри октомври 21:00ч. и 22:00 ч., епизод 1)
+        </a>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С отворени въпроси и пълно изписване</div>
+      <div class="stack">
+      <a class="menu-btn" href="/saraevo/index.html">
+          🧩 Куиз Сараево 🧩
+        </a>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">Отговаряне с числа</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/cifromania_live/index.html">
+          🔢 Цифромания Диапазон 🔢<br>(30 юли 21:30 ч, епизод 1)
+        </a>
+        <div class="vote-square" data-game="cifromania_live">0</div>
+      </div>
+      <div class="vote-row">
+        <a class="menu-btn" href="/cifromania20/index.html">
+          🔢 Цифромания Топ 20 🔢<br>(16 август 22:00 ч, епизод 2)
+        </a>
+        <div class="vote-square" data-game="cifromania20">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С посочване на локация</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/parashutbg/index.html">
+          🪂 Гео-игра Парашут 🪂 <br>(9 август 22:00)
+        </a>
+        <div class="vote-square" data-game="parashut_bg_live">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С чифтосване</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/chift/index.html">
+          🔗 Куиз Чифтосване 🔗 <br>(31 юли 22:00 ч., повторение)
+        </a>
+        <div class="vote-square" data-game="chift">0</div>
+      </div>
+      <div class="vote-row">
+        <a class="menu-btn" href="/grupirane/index.html">
+          📚 Куиз Групиране 📚 <br>(6-ти октомври 22:00 ч., епизод 2)
+        </a>
+        <div class="vote-square" data-game="grupirane">0</div>
+      </div>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С подреждане</div>
+      <div class="stack">
+      <a class="menu-btn" href="/klasacia/index.html">
+          📊 Куиз Класация 📊 <br>(05 август 22:00 ч., епизод 1)
+        </a>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">Смесени игри</div>
+      <div class="stack">
+      <div class="vote-row">
+        <a class="menu-btn" href="/config/game.html">
+          🛠️ Куиз Конфигуратор 🛠️ <br>(05 окт. 22:00 ч, епизод 71)
+        </a>
+        <div class="vote-square" data-game="configurator">0</div>
+      </div>
+      <a class="menu-btn" href="/config/config.html">
+          🛠️ Задай куиз 🛠️
+        </a>
+      <a class="menu-btn" href="/quizmix/index.html">
+          🧩  Куиз Микс 100 🧩 (9 окт 21:00 ч., епизод тест)
+        </a>
+      <div class="vote-row">
+        <a class="menu-btn" href="/quizmix123/index.html">
+          🧩 Куиз Микс 1,2,3 🧩 <br>(30 септ 22:00 ч., епизод 1 (повторение))
+        </a>
+        <div class="vote-square" data-game="quizmix123">0</div>
+      </div>
+      <div class="vote-row">
+        <a class="menu-btn" href="/quizmix456/index.html">
+          🧩 Куиз Микс 4,5,6 🧩 <br>(01 октомври 21:00 ч. и 22:00 ч., епизод 1)
+        </a>
+        <div class="vote-square" data-game="quizmix456">0</div>
+      </div>
+      <a class="menu-btn" href="/quizmix7810/index.html">
+          🧩 Куиз Микс 7,8,10 🧩 <br>(04 окт 22:00 ч, епизод 1)
+        </a>
+      </div>
+    </div>
+    </div>
+
+    <!-- ДЯСНА КОЛОНА -->
+    <div class="column">
+      <div class="section-title t-col">Самостоятелни игри* <small>в удобно за вас време</small></div>
+    <div class="group">
+      <div class="group-label">С 4 варианта за отговор</div>
+      <div class="stack">
+      <a class="menu-btn" href="/spoko/index.html">
+          🦉 Спокойна игра 🦉 <br>(епизод 97)
+        </a>
+      <a class="menu-btn" href="/cockteil/cockteil.html">
+          🍹 Куиз коктейл 🍹<br>(по всяко време)
+        </a>
+      <a class="menu-btn" href="/survivor/survivor.html">
+          🗡️ Куиз Сървайвър 🗡️<br>(по всяко време)
+        </a>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">С отговаряне с число</div>
+      <div class="stack">
+      <a class="menu-btn" href="/cifromania/cifromania.html">
+          🔢 Коктейл Цифромания 🔢<br>(по всяко време)
+        </a>
+      </div>
+    </div>
+    <div class="group">
+      <div class="group-label">Смесени игри</div>
+      <div class="stack">
+      <a class="menu-btn" href="/configsam/index.html">
+       🛠️ Куиз Конфигуратор - сингъл 🛠️ <br>(по всяко време)
+        </a>
+      </div>
+    </div>
+    </div>
+
   </div>
 
-
-    <!-- grupirane -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/grupirane/index.html">
-        📚 Куиз Групиране 📚 <br>(6-ти октомври 22:00 ч., епизод 2)
-    </a>
-    <div class="vote-square" data-game="grupirane">0</div>
-  </div>
-  <!-- configurator -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/config/game.html">
-        🛠️ Куиз Конфигуратор 🛠️ <br>(05 окт. 22:00 ч, епизод 71)
-    </a>
-    <div class="vote-square" data-game="configurator">0</div>
-  </div>
-
-
-   <!-- lightning -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/lightning/lightning_player.html">
-        ⚡ Светкавичен куиз ⚡<br>(03 окт 21:00 ч., епизод 1) <br> (22:00 ч. епизод 97)
-    </a>
-    <div class="vote-square" data-game="lightning">0</div>
+  <!-- ===== БЪДЕЩИ ИГРИ ===== -->
+  <div class="section-title t-future">Бъдещи игри (в разработка)</div>
+  <div class="single-col">
+      <a class="menu-btn" href="/ааааааааа/index.html">
+          ❌⭕ Куиз Морски шах ❌⭕
+        </a>
+      <a class="menu-btn" href="/ааааааааа/index.html">
+          🔀 Безкраен Куиз 🔀
+        </a>
+      <a class="menu-btn" href="/ааааааааа/index.html">
+          🏟️ Куиз Арена 🏟️
+        </a>
+      <a class="menu-btn" href="/ааааааааа/index.html">
+          🃏 Покер Куиз 🃏
+        </a>
   </div>
 
-
-   <!-- quizmix456 (няма в списъка за гласуване, оставям без квадратче) -->
-  <div class="vote-row">
-<a class="menu-btn" href="/quizmix456/index.html">
-         🧩  Куиз Микс 4,5,6 🧩 <br>(01 октомвяри 21:00 ч. и 22:00 ч., епизод 1)
-  </a>
-   <div class="vote-square" data-game="quizmix456">0</div>
-  </div>
-  <!-- quizmix123 (няма в списъка за гласуване, оставям без квадратче) -->
-  <div class="vote-row">
-  <a class="menu-btn" href="/quizmix123/index.html">
-         🧩  Куиз Микс 1,2,3 🧩 <br>(30 септ 22:00 ч., епизод 1 (повторение))
-     </a>
-       <div class="vote-square" data-game="quizmix123">0</div>
+  <!-- ===== ДРУГИ ВРЪЗКИ ===== -->
+  <div class="section-title t-links">Други връзки</div>
+  <div class="single-col">
+      <a class="menu-btn" href="/igri/liganew.html">
+          👽🏆 Лига на Извънземните 👽🏆<br>(класиране)
+        </a>
+      <a class="menu-btn" href="https://bgquizassoc.github.io/video/">
+          🎥 Видеоархив 🎥<br>(гледай записи)
+        </a>
   </div>
 
-  
-     <!-- percent -->
-
-  
-  <!-- izbor -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/izbor/index.html">
-        ☑️ Куиз Избор ☑️ <br>(09 септ 22:00 ч, епизод 1)
-    </a>
-    <div class="vote-square" data-game="izbor">0</div>
+  <div class="footnote">
+    * Самостоятелните игри изискват код за достъп. <br> Моля да се обърнете с лично съобщение към администратора (Orlin Krumow) <br> след заплащане на годишно дарение от 5 евро към Българска Наципонална Куиз Асоциация <br> IBAN: BG89 ESPY 4004 0034 4154 03, BIC: ESPYBGS1
   </div>
 
-  <!-- sravnenie30 -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/sravnenie30/index.html">
-        ⚖️ Куиз Сравнение ⚖️ <br>(04 септ 22:00 ч., епизод 1 (повторение))
-    </a>
-    <div class="vote-square" data-game="sravnenie30">0</div>
-  </div>
+  <hr class="divider">
 
-  
-
- 
-
-  <!-- chift -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/chift/index.html">
-        🔗 Куиз Чифтосване 🔗 <br>(31 юли 22:00 ч., повторение)
-    </a>
-    <div class="vote-square" data-game="chift">0</div>
-  </div>
-
-
-
-  <!-- parashut_bg_live -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/parashutbg/index.html">
-        🪂 Гео-игра Парашут 🪂 <br>(9 август 22:00)
-    </a>
-    <div class="vote-square" data-game="parashut_bg_live">0</div>
-  </div>
-
-  <!-- fotomania -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/fotomania/index.html">
-        📷 Фотомания 📷 <br>(28 юли - 22:00 - повторение)
-    </a>
-    <div class="vote-square" data-game="fotomania">0</div>
-  </div>
-
-  <!-- cifromania_live -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/cifromania_live/index.html">
-        🔢 Цифромания Диапазон🔢<br>(30 юли 21:30 ч, епизод 1)
-    </a>
-    <div class="vote-square" data-game="cifromania_live">0</div>
-  </div>
-
-  <!-- cifromania20 -->
-  <div class="vote-row">
-    <a class="menu-btn" href="/cifromania20/index.html">
-        🔢 Цифромания Топ 20 🔢<br>(16 август 22:00 ч, епизод 2)
-    </a>
-    <div class="vote-square" data-game="cifromania20">0</div>
-  </div>
-     </a>
-  <a class="menu-btn" href="/multi/index.html">
-         🎬 Куиз Мултимедия 🎬 <br>(02-ри октомври 21:00ч. и 22:00 ч., епизод 1)
-  </a>
-  
-     <a class="menu-btn" href="/quizmix7810/index.html">
-         🧩  Куиз Микс 7,8,10 🧩 <br>(04 окт 22:00 ч, епизод 1)
-  </a>
-  <!-- останалите игри – без гласуване, остават както са -->
-  <a class="menu-btn" href="/spoko/index.html">
-        🦉 Спокойна игра 🦉 <br>(епизод 96) 
-  </a>
-  <a class="menu-btn" href="/cockteil/cockteil.html">
-        🍹 Куиз коктейл 🍹<br>(по всяко време)
-  </a>
-  <a class="menu-btn" href="/survivor/survivor.html">
-        🗡️ Куиз Сървайвър 🗡️<br>(по всяко време)
-  </a>
-  <a class="menu-btn" href="/cifromania/cifromania.html">
-        🔢 Коктейл Цифромания 🔢<br>(по всяко време)
-  </a>
-  
-  <a class="menu-btn" href="/klasacia/index.html">
-        📊 Куиз Класация 📊 <br>(разработва се)
-  </a>
-  <a class="menu-btn" href="/configsam/index.html">
-        ⚓ Куиз Дуел: Бойни кораби ⚓ <br>(разработва се)
-  </a>
-
-   <a class="menu-btn" href="/quizmix/index.html">
-        ⚓ Куиз Дуел: Бойни кораби ⚓ <br>(разработва се)
-  </a>
-  <a class="menu-btn" href="/config/config.html">     
-        🛠️ Задай куиз 🛠️ 
-  </a>
-<!-- quizmix123 (няма в списъка за гласуване, оставям без квадратче) -->
- 
-  
- 
-  <a class="menu-btn" href="/bezkray/index.html">
-         🔀  Безкраен Куиз 🔀 <br>(разработва се)
-  </a>
-
-
-     <a class="menu-btn" href="/saraevo/index.html">
-         🧩  Куиз Сараево 🧩 <br>
-  </a>
-    <a class="menu-btn" href="/igri/liganew.html">
-        👽🏆 Лига на Извънземните 👽🏆<br>(класиране)
-  </a>
-  <a class="menu-btn" href="https://bgquizassoc.github.io/video/">
-        🎥 Видеоархив 🎥<br>(гледай записи)
-  </a>
+  <!-- Лога на линкове – добави тук <a href="..."><img src="..." alt="..."></a> -->
+  <div class="link-logos"></div>
 
 </div>
 
@@ -389,14 +542,8 @@
 <script>
     const logo = document.querySelector('.logo');
     const popup = document.getElementById('logo-popup');
-
-    logo.addEventListener('click', () => {
-        popup.style.display = 'flex';
-    });
-
-    popup.addEventListener('click', () => {
-        popup.style.display = 'none';
-    });
+    logo.addEventListener('click', () => { popup.style.display = 'flex'; });
+    popup.addEventListener('click', () => { popup.style.display = 'none'; });
 </script>
 
 <!-- Музика -->
@@ -427,31 +574,30 @@ document.querySelectorAll(".vote-square").forEach(sq => {
       document.body.addEventListener("click", () => a.play(), { once: true });
     });
 
-    // ⭐ Записваме гласа в документ, вързан за ДНЕШНАТА дата — така
-    // анкетата стартира от нула всеки нов ден, вместо гласовете да се
-    // трупат безкрайно (стария код пишеше директно в votes/{game}
-    // с increment(1), без дата — резултатите никога не се нулираха).
+    // Гласът се записва в документ, вързан за днешната дата –
+    // анкетата започва от нула всеки нов ден.
     await db.collection("votes").doc(today).collection("byGame").doc(game)
       .set({ count: firebase.firestore.FieldValue.increment(1) }, { merge: true });
 
-    sq.classList.add("voted");
+    // Боядисваме всички квадратчета за тази игра
+    // (Буквомания е и "Игра на деня", и в лявата колона)
+    document.querySelectorAll(`.vote-square[data-game="${game}"]`)
+      .forEach(el => el.classList.add("voted"));
   });
 });
 
-// ⭐ Показваме гласовете в реално време — само за ДНЕШНИЯ ден
+// Показваме гласовете в реално време – само за днешния ден
 const todayForListener = new Date().toISOString().slice(0, 10);
 db.collection("votes").doc(todayForListener).collection("byGame").onSnapshot(snap => {
-  // нулираме всички квадратчета по подразбиране — игра без глас днес показва 0
   document.querySelectorAll(".vote-square").forEach(sq => sq.innerText = "0");
   snap.forEach(doc => {
     const game = doc.id;
     const count = doc.data().count;
-    const sq = document.querySelector(`.vote-square[data-game="${game}"]`);
-    if (sq) sq.innerText = count;
+    document.querySelectorAll(`.vote-square[data-game="${game}"]`)
+      .forEach(sq => sq.innerText = count);
   });
 });
 </script>
-
 
 </body>
 </html>
